@@ -225,7 +225,11 @@ public class OAuthAccessToken {
 	
 	private OAuthParameters createRefreshParameters() 
 	{
-		signer = new RsaSigner().createRsaSigner();
+		if(c.getAppType().equals("PUBLIC")) {
+			signer = new HmacSigner().createHmacSigner(tokenSecret);
+		} else {
+			signer = new RsaSigner().createRsaSigner();
+		}
 		  
 		OAuthParameters result = new OAuthParameters();
 		result.consumerKey = c.getConsumerKey();
@@ -234,7 +238,7 @@ public class OAuthAccessToken {
 		result.signer = signer;
 		return result;
 	}
-	
+
 	public boolean isStale(String timestamp) 
 	{
 		boolean bool = false;

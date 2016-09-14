@@ -78,15 +78,18 @@ public class OAuthRequestResource extends GenericUrl {
 	/** {@code true} for POST request or the default {@code false} for GET request. */
 	protected boolean usePost;
 
+	private String method;
+
 	/**
 	 * @param authorizationServerUrl encoded authorization server URL
 	 */
 	public  OAuthRequestResource(String resource, String method, String body) {
 		Url = new GenericUrl(c.getApiUrl() + resource);
-		if(method.equals("POST")){
+		if(method.equals("POST") || method.equals("PUT")) {
 			usePost = true;
 		}
 		this.body = body;
+		this.method = method;
 	}
 
 	/**
@@ -106,7 +109,7 @@ public class OAuthRequestResource extends GenericUrl {
 		}
 
 		HttpRequestFactory requestFactory = transport.createRequestFactory();
-		HttpRequest request = requestFactory.buildRequest(usePost ? HttpMethods.POST : HttpMethods.GET, Url, requestBody);
+		HttpRequest request = requestFactory.buildRequest(this.method, Url, requestBody);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setUserAgent(c.getUserAgent());

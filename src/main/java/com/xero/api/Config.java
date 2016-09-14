@@ -31,18 +31,29 @@ public class Config {
 	private String ENTRUST_SSL_PASSWORD;
 		
 	private static Config instance = null;
+	private static String DEFAULT_RESOURCE_NAME = "config.json";
    
 	private Config(){ }
 	   
 	/* Static 'instance' method */
 	public static Config getInstance() 
 	{
-		if(instance == null) 
+	    return getInstance(DEFAULT_RESOURCE_NAME);
+	}
+
+	public static Config getInstance(String resourceName)
+	{
+		if (instance == null)
 		{
 			instance = new Config();
-			instance.load();
+			instance.load(resourceName);
 		}
-	    return instance;
+		return instance;
+	}
+
+	public static Config reloadConfig(String resourceName) {
+		instance = null;
+		return getInstance(resourceName);
 	}
 	
 	public String getAppType() 
@@ -120,11 +131,15 @@ public class Config {
 		return AUTH_CALLBACK_URL;
 	}
 	  
-	public void load() 
+	public void load()
+	{
+		load("config.json");
+	} 
+	public void load(String resourceName)
 	{
 		
 		final ClassLoader loader = Config.class.getClassLoader();
-		URL path = loader.getResource("config.json");
+		URL path = loader.getResource(resourceName);
 		File f = new File(path.getFile());
 		
 		JSONParser parser = new JSONParser();

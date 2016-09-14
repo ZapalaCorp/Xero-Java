@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.xero</groupId>
 	<artifactId>Xero-Java-Example</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Xero-Java-Example Maven Webapp</name>
 	<url>http://maven.apache.org</url>
