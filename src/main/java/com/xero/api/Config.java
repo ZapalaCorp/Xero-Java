@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 
 import org.json.simple.JSONObject;
@@ -139,14 +141,17 @@ public class Config {
 	{
 		
 		final ClassLoader loader = Config.class.getClassLoader();
-		URL path = loader.getResource(resourceName);
-		File f = new File(path.getFile());
+		//URL path = loader.getResource(resourceName);
+		//File f = new File(path.getFile());
+		InputStream stream = loader.getResourceAsStream(resourceName);
+		InputStreamReader reader = new InputStreamReader(stream);
 		
 		JSONParser parser = new JSONParser();
 		  
 		Object obj = null;
 		try {
-			obj = parser.parse(new FileReader(f));
+			//obj = parser.parse(new FileReader(f));
+			obj = parser.parse(reader);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
